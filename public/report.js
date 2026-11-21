@@ -61,8 +61,9 @@ for (const result of report.results) {
   }
 
   const actions = element("div", null, "actions");
+  const checkoutSearch = corrected && result.fixture === "baseline" ? "?checkout=corrected" : "";
   actions.append(
-    link("./fixture/" + result.fixture + "/", "Try checkout"),
+    link("./fixture/" + result.fixture + "/" + checkoutSearch, "Try checkout"),
     link("./" + result.screenshot, "Screenshot", true),
     link("./" + result.trace, "Trace ZIP", true),
   );

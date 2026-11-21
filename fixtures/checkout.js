@@ -1,6 +1,8 @@
 const fixture = location.pathname.replace(/\/$/, "").split("/").at(-1);
 const candidate = fixture === "candidate";
-if (fixture === "corrected") document.getElementById("report-link").href = "../../?checkout=corrected";
+const returnToCorrected = fixture === "corrected" ||
+  (fixture === "baseline" && new URLSearchParams(location.search).get("checkout") === "corrected");
+if (returnToCorrected) document.getElementById("report-link").href = "../../?checkout=corrected";
 const total = document.getElementById("total");
 const fee = document.getElementById("fee");
 const status = document.getElementById("status");
