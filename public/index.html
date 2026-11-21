@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Compare a Playwright checkout check across two sample releases and inspect the screenshots and traces.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Release Check</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="stylesheet" href="./report.css">
+  <script src="./theme.js"></script>
+  <script type="module" src="./report.js"></script>
+</head>
+<body>
+  <header>
+    <div class="shell masthead">
+      <a class="brand" href="./"><img src="./favicon.svg" width="31" height="31" alt="">Release Check</a>
+      <a href="https://portfolio.artemislab.co.uk/#projects">← All projects</a>
+    </div>
+  </header>
+  <main class="shell">
+    <section class="intro">
+      <h1>Checkout release check</h1>
+      <p>The same Playwright flow ran on two versions of a fictional checkout.</p>
+    </section>
+    <noscript><p>Enable JavaScript to compare the release results. <a href="./report.json">Open the JSON report</a>.</p></noscript>
+    <section class="verdict" id="verdict" aria-labelledby="verdict-heading" hidden>
+      <div>
+        <h2 id="verdict-heading"></h2>
+        <p id="reason"></p>
+      </div>
+      <dl class="run-meta">
+        <dt>Browser</dt><dd id="browser"></dd>
+        <dt>Viewport</dt><dd id="viewport"></dd>
+      </dl>
+    </section>
+    <div id="results" class="results"></div>
+    <footer>
+      <p>Generated <time id="generated"></time> · <a href="./report.json" download>Download JSON report</a></p>
+      <details>
+        <summary>Open a trace locally</summary>
+        <p>Download a trace ZIP and run <code>npx playwright show-trace candidate.zip</code>. The trace shows each action and the checkout state at that point.</p>
+      </details>
+    </footer>
+  </main>
+</body>
+</html>

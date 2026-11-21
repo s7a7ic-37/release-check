@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'none'; form-action 'none'">
+  <title>Sample checkout</title>
+  <link rel="stylesheet" href="../checkout.css">
+  <script defer src="../checkout.js"></script>
+</head>
+<body>
+  <main>
+    <a href="../../">← Release results</a>
+    <h1>Sample checkout</h1>
+    <p class="caption">This order is fictional.</p>
+    <section aria-label="Order details">
+      <div class="line"><strong>Workshop notebook</strong><span>£12.00</span></div>
+      <fieldset>
+        <legend>Fulfilment</legend>
+        <label><input type="radio" name="fulfilment" value="delivery" checked>Standard delivery <span>£3.00</span></label>
+        <label><input type="radio" name="fulfilment" value="collection">Collect from workshop <span>Free</span></label>
+      </fieldset>
+      <div class="line"><span>Delivery fee</span><span id="fee">£3.00</span></div>
+      <div class="line total"><strong>Total</strong><strong data-testid="total" id="total">£15.00</strong></div>
+      <button type="button" id="confirm">Confirm sample order</button>
+      <p role="status" id="status"></p>
+    </section>
+  </main>
+</body>
+</html>
