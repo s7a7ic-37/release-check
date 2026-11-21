@@ -16,6 +16,8 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npx playwright install --with-deps chromium
+      - name: Check checkout controls while its script loads
+        run: npm run test:readiness
       - run: npm run build
       - name: Confirm the example blocks a bad release
         run: |

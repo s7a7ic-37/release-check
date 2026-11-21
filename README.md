@@ -11,10 +11,13 @@ Use Node 24+ and Python 3.
     npm ci
     npx playwright install chromium
     npm test
+    npm run test:readiness
     npm run build
     python -m http.server 4192 --bind 127.0.0.1 --directory dist
 
 Open http://127.0.0.1:4192/. The build runs only the fixed loopback fixtures on 127.0.0.1:4191. It publishes two static reports and three screenshots and traces, reusing the same baseline run in both reports. Choose a checkout on the dashboard to see its captured evidence.
+
+The readiness test delays the checkout script and checks that collection is unavailable until the controls work.
 
     npm run gate
     npm run gate -- --corrected

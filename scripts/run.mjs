@@ -3,6 +3,7 @@ import { cpSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { chromium, expect } from "@playwright/test";
 import { verdict } from "./report.mjs";
+import { checkCheckoutReadiness } from "../tests/readiness.mjs";
 
 const port = 4191;
 const origin = "http://127.0.0.1:" + port;
@@ -81,12 +82,15 @@ function writeReport(results, metadata, stem) {
 }
 
 async function main() {
-  mkdirSync(new URL("evidence/", dist), { recursive: true });
-  cpSync(new URL("../public/", import.meta.url), dist, { recursive: true });
-  for (const [route, asset] of files) {
-    const file = new URL(route.slice(1) + (route.endsWith("/") ? "index.html" : ""), dist);
-    mkdirSync(new URL(".", file), { recursive: true });
-    writeFileSync(file, asset.body);
+  const checkReadiness = process.argv.includes("--check-readiness");
+  if (!checkReadiness) {
+    mkdirSync(new URL("evidence/", dist), { recursive: true });
+    cpSync(new URL("../public/", import.meta.url), dist, { recursive: true });
+    for (const [route, asset] of files) {
+      const file = new URL(route.slice(1) + (route.endsWith("/") ? "index.html" : ""), dist);
+      mkdirSync(new URL(".", file), { recursive: true });
+      writeFileSync(file, asset.body);
+    }
   }
   const server = createServer((request, response) => {
     const asset = files.get(request.url);
@@ -100,6 +104,11 @@ async function main() {
   let browser;
   try {
     browser = await chromium.launch();
+    if (checkReadiness) {
+      await checkCheckoutReadiness(browser, origin);
+      console.log("Checkout waits for its script before accepting collection.");
+      return;
+    }
     const results = [];
     for (const fixture of fixtures) results.push(await runFixture(browser, fixture));
     const [baseline, candidate, corrected] = results;

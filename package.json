@@ -7,7 +7,8 @@
   "scripts": {
     "build": "node scripts/run.mjs",
     "gate": "node scripts/run.mjs --gate",
-    "test": "node --test tests/report.test.mjs"
+    "test": "node --test tests/report.test.mjs",
+    "test:readiness": "node scripts/run.mjs --check-readiness"
   },
   "devDependencies": { "@playwright/test": "1.65.0" }
 }
