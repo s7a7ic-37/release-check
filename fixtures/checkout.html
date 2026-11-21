@@ -15,14 +15,14 @@
     <p class="caption">This order is fictional.</p>
     <section aria-label="Order details">
       <div class="line"><strong>Workshop notebook</strong><span>£12.00</span></div>
-      <fieldset>
+      <fieldset id="fulfilment-options" disabled>
         <legend>Fulfilment</legend>
         <label><input type="radio" name="fulfilment" value="delivery" checked>Standard delivery <span>£3.00</span></label>
         <label><input type="radio" name="fulfilment" value="collection">Collect from workshop <span>Free</span></label>
       </fieldset>
       <div class="line"><span>Delivery fee</span><span id="fee">£3.00</span></div>
       <div class="line total"><strong>Total</strong><strong data-testid="total" id="total">£15.00</strong></div>
-      <button type="button" id="confirm">Confirm sample order</button>
+      <button type="button" id="confirm" disabled>Confirm sample order</button>
       <p role="status" id="status"></p>
     </section>
   </main>

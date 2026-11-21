@@ -14,5 +14,6 @@ label span { margin-left: auto; }
 input { margin: 0; accent-color: #34449f; }
 .total { border-top: 1px solid #bac3e1; font-size: 1.2rem; }
 button { width: 100%; background: #34449f; border: 0; border-radius: 5px; color: #fff; font: inherit; font-weight: 700; min-height: 44px; margin-top: .45rem; cursor: pointer; }
+button:disabled { background: #697395; cursor: default; }
 [role="status"] { color: #145324; min-height: 1.5rem; margin: .65rem 0 0; }
 :focus-visible { outline: 3px solid #34449f; outline-offset: 3px; }

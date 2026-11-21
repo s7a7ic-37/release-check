@@ -14,6 +14,9 @@ document.querySelectorAll('[name="fulfilment"]').forEach(input => {
     status.textContent = "";
   });
 });
-document.getElementById("confirm").addEventListener("click", () => {
+const confirmOrder = document.getElementById("confirm");
+confirmOrder.addEventListener("click", () => {
   status.textContent = "Sample order confirmed.";
 });
+document.getElementById("fulfilment-options").disabled = false;
+confirmOrder.disabled = false;
