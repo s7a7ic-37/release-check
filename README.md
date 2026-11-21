@@ -2,6 +2,8 @@
 
 A Playwright release gate for two versions of a fictional checkout. Both runs check standard delivery, switch to collection and check confirmation. The candidate deliberately leaves the old total after collection is selected. The report shows the mismatch and marks confirmation as skipped.
 
+[Open the release report](https://release.artemislab.co.uk/).
+
 ## Run locally
 
 Use Node 24+ and Python 3.

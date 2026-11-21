@@ -1,0 +1,24 @@
+name: Release gate checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - name: Confirm the example blocks a bad release
+        run: |
+          status=0
+          npm run gate || status=$?
+          test "$status" -eq 1
