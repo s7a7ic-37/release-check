@@ -1,6 +1,6 @@
 # Release Check
 
-A Playwright release gate for two versions of a fictional checkout. Both runs check standard delivery, switch to collection and check confirmation. The candidate deliberately leaves the old total after collection is selected. The report shows the mismatch and marks confirmation as skipped.
+A Playwright release gate for a fictional checkout. The report compares a shared baseline with either the broken candidate or its corrected checkout. Each runs the same checks for delivery, collection and order confirmation. The broken candidate leaves the old total after collection, so the confirmation check is skipped. The corrected checkout updates the total and reaches confirmation.
 
 [Open the release report](https://release.artemislab.co.uk/).
 
@@ -14,9 +14,10 @@ Use Node 24+ and Python 3.
     npm run build
     python -m http.server 4192 --bind 127.0.0.1 --directory dist
 
-Open http://127.0.0.1:4192/. The build runs the fixed fixtures on 127.0.0.1:4191 and generates a static report, two screenshots and two traces. The dashboard links to each sample checkout so you can reproduce the result.
+Open http://127.0.0.1:4192/. The build runs only the fixed loopback fixtures on 127.0.0.1:4191. It publishes two static reports and three screenshots and traces, reusing the same baseline run in both reports. Choose a checkout on the dashboard to see its captured evidence.
 
     npm run gate
+    npm run gate -- --corrected
     npx playwright show-trace dist/evidence/candidate.zip
 
-The gate exits with 1 when a check blocks release, which is expected for the broken fixture. It exits with 0 when both versions pass, or 2 if the run cannot produce a report. Use the build command to publish the generated report regardless of its verdict.
+The default gate checks the broken candidate and exits with 1. With the corrected candidate it exits with 0 when both the baseline and candidate pass. A run that cannot produce reports exits with 2. Use the build command to generate the reports for publication regardless of their verdicts.

@@ -22,3 +22,5 @@ jobs:
           status=0
           npm run gate || status=$?
           test "$status" -eq 1
+      - name: Confirm the corrected checkout passes
+        run: npm run gate -- --corrected

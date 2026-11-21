@@ -39,6 +39,9 @@ header { border-bottom: 1px solid var(--line); background: var(--surface); }
 h1, h2, p, dl, dd { margin: 0; }
 h1 { font-size: clamp(2rem, 6vw, 4rem); letter-spacing: -.05em; line-height: 1.02; }
 .intro p { color: var(--muted); margin-top: .55rem; }
+.report-options { display: flex; flex-wrap: wrap; gap: .45rem; margin-bottom: .8rem; }
+.report-options a { display: inline-flex; align-items: center; min-height: 44px; padding: .4rem .7rem; border: 1px solid var(--line); }
+.report-options [aria-current="page"] { font-weight: 700; background: var(--surface); border-color: var(--accent); }
 .verdict {
   display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: .65rem 1rem;
   border-left: 5px solid var(--fail); background: var(--gold); padding: .9rem 1rem; margin-bottom: 1rem;

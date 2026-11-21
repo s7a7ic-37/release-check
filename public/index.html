@@ -21,8 +21,12 @@
   <main class="shell">
     <section class="intro">
       <h1>Checkout release check</h1>
-      <p>The same Playwright flow ran on two versions of a fictional checkout.</p>
+      <p>Compare the same Playwright release checks before and after a checkout fix.</p>
     </section>
+    <nav class="report-options" aria-label="Checkout report">
+      <a id="broken-report" href="./">Broken checkout</a>
+      <a id="corrected-report" href="./?checkout=corrected">Corrected checkout</a>
+    </nav>
     <noscript><p>Enable JavaScript to compare the release results. <a href="./report.json">Open the JSON report</a>.</p></noscript>
     <section class="verdict" id="verdict" aria-labelledby="verdict-heading" hidden>
       <div>
@@ -36,10 +40,10 @@
     </section>
     <div id="results" class="results"></div>
     <footer>
-      <p>Generated <time id="generated"></time> · <a href="./report.json" download>Download JSON report</a></p>
+      <p>Generated <time id="generated"></time> · <a id="download-report" href="./report.json" download>Download JSON report</a></p>
       <details>
         <summary>Open a trace locally</summary>
-        <p>Download a trace ZIP and run <code>npx playwright show-trace candidate.zip</code>. The trace shows each action and the checkout state at that point.</p>
+        <p>To open the candidate trace, download its ZIP and run <code id="trace-command">npx playwright show-trace candidate.zip</code>. The trace shows each action and the checkout state at that point.</p>
       </details>
     </footer>
     <p><a href="https://github.com/s7a7ic-37/release-check">Project source ↗</a></p>

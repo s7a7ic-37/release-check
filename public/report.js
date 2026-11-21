@@ -1,4 +1,5 @@
-import report from "./report-data.js";
+import brokenReport from "./report-data.js";
+import correctedReport from "./corrected-report-data.js";
 
 function element(tag, text, css) {
   const node = document.createElement(tag);
@@ -16,6 +17,13 @@ function link(destination, text, download = false) {
 
 const names = { baseline: "Baseline", candidate: "Release candidate" };
 const statuses = { passed: "Passed", failed: "Failed", skipped: "Skipped" };
+const corrected = new URLSearchParams(location.search).get("checkout") === "corrected";
+const report = corrected ? correctedReport : brokenReport;
+document.getElementById(corrected ? "corrected-report" : "broken-report").setAttribute("aria-current", "page");
+if (corrected) {
+  document.getElementById("download-report").href = "./corrected-report.json";
+  document.getElementById("trace-command").textContent = "npx playwright show-trace corrected.zip";
+}
 const verdict = document.getElementById("verdict");
 const failure = report.results.flatMap(result => result.checks).find(check => check.status === "failed");
 verdict.dataset.status = report.status;
@@ -54,7 +62,7 @@ for (const result of report.results) {
 
   const actions = element("div", null, "actions");
   actions.append(
-    link("./fixture/" + result.id + "/", "Try checkout"),
+    link("./fixture/" + result.fixture + "/", "Try checkout"),
     link("./" + result.screenshot, "Screenshot", true),
     link("./" + result.trace, "Trace ZIP", true),
   );
