@@ -33,6 +33,13 @@ document.getElementById("reason").textContent = failure
   : "All required checks passed.";
 document.getElementById("browser").textContent = report.browser;
 document.getElementById("viewport").textContent = report.viewport + " px touch";
+if (report.source) {
+  const revision = document.getElementById("source-version");
+  revision.textContent = report.source.commit.slice(0, 12) + (report.source.inputsEdited ? " · local input edits" : "");
+  revision.title = report.source.commit;
+  revision.hidden = false;
+  document.getElementById("source-label").hidden = false;
+}
 verdict.hidden = false;
 
 const results = document.getElementById("results");
@@ -75,6 +82,17 @@ for (const result of report.results) {
   capture.loading = "lazy";
   evidence.append(capture);
   card.append(heading, list, actions, evidence);
+  if (result.sha256) {
+    const fingerprints = element("details", null, "fingerprints");
+    const values = element("dl");
+    for (const [key, label] of [["screenshot", "Screenshot SHA-256"], ["trace", "Trace SHA-256"]]) {
+      const digest = element("dd");
+      digest.append(element("code", result.sha256[key]));
+      values.append(element("dt", label), digest);
+    }
+    fingerprints.append(element("summary", "Verify evidence files"), values);
+    card.append(fingerprints);
+  }
   results.append(card);
 }
 

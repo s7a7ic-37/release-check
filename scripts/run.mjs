@@ -1,4 +1,6 @@
 import { createServer } from "node:http";
+import { spawnSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { cpSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { chromium, expect } from "@playwright/test";
@@ -17,6 +19,22 @@ const paths = new Map([
 const files = new Map([...paths].map(([path, [name, type]]) =>
   [path, { body: readFileSync(new URL("../fixtures/" + name, import.meta.url)), type }]
 ));
+
+function sourceVersion() {
+  const cwd = fileURLToPath(new URL("../", import.meta.url));
+  const git = args => spawnSync("git", args, { cwd, encoding: "utf8" });
+  const prefix = git(["rev-parse", "--show-prefix"]);
+  if (prefix.status !== 0 || prefix.stdout.trim()) return null;
+  const revision = git(["rev-parse", "--verify", "HEAD"]);
+  const status = git(["status", "--porcelain=v1", "--", "fixtures", "scripts", "public", "tests/readiness.mjs", "package.json", "package-lock.json"]);
+  const commit = revision.stdout?.trim();
+  if (revision.status !== 0 || status.status !== 0 || !/^[a-f0-9]{40}$/.test(commit)) return null;
+  return { commit, inputsEdited: Boolean(status.stdout.trim()) };
+}
+
+function evidenceDigest(relative) {
+  return createHash("sha256").update(readFileSync(new URL(relative, dist))).digest("hex");
+}
 
 async function runFixture(browser, fixture) {
   const context = await browser.newContext({
@@ -109,12 +127,18 @@ async function main() {
       console.log("Checkout waits for its script before accepting collection.");
       return;
     }
+    const source = sourceVersion();
     const results = [];
-    for (const fixture of fixtures) results.push(await runFixture(browser, fixture));
+    for (const fixture of fixtures) {
+      const result = await runFixture(browser, fixture);
+      result.sha256 = { screenshot: evidenceDigest(result.screenshot), trace: evidenceDigest(result.trace) };
+      results.push(result);
+    }
     const [baseline, candidate, corrected] = results;
     const metadata = {
       createdAt: new Date().toISOString(), viewport: 390,
       browser: "Chromium " + browser.version(),
+      source,
     };
     const brokenReport = writeReport([baseline, candidate], metadata, "report");
     const correctedReport = writeReport([baseline, corrected], metadata, "corrected-report");

@@ -17,6 +17,8 @@ Use Node 24+ and Python 3.
 
 Open http://127.0.0.1:4192/. The build runs only the fixed loopback fixtures on 127.0.0.1:4191. It publishes two static reports and three screenshots and traces, reusing the same baseline run in both reports. Choose a checkout on the dashboard to see its captured evidence.
 
+The report records the Git revision when built from a checkout, and marks local changes to capture inputs. Use **Verify evidence files** to find the SHA-256 value for each screenshot or trace ZIP. After building, `node tests/evidence.mjs` recomputes those values from the files.
+
 The readiness test delays the checkout script and checks that collection is unavailable until the controls work.
 
     npm run gate
